@@ -1,3 +1,4 @@
+// run using "npm run start"
 var express = require('express')
 var { graphqlHTTP } = require('express-graphql');
 var app = express();
