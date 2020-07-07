@@ -1,6 +1,10 @@
 var express = require('express')
 var { graphqlHTTP } = require('express-graphql');
-var app = express()
+var app = express();
+const {
+  GraphQLSchema,
+  GraphQLObjectType
+} = require('graphql');
 
 // we can access graphql without Postman
 app.use('/graphql', graphqlHTTP({
