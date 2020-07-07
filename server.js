@@ -44,6 +44,8 @@ const BookType = new GraphQLObjectType({
   })
 })
 
+// fields has a function that returns an object because we want BookType and AuthorType to be defined before anything
+// else can run or there will be errors
 const AuthorType = new GraphQLObjectType({
   name: 'Author',
   description: 'This represents an author of a book',
@@ -92,8 +94,29 @@ const RootQueryType = new GraphQLObjectType({
   })
 })
 
+const RootMutationType = new GraphQLObjectType({
+  name: 'Mutation',
+  description: "Root Mutation",
+  fields: () => ({
+    addBook: {
+      type: BookType,
+      description: 'Add a book',
+      args: {
+        name: { type: GraphQLNonNull(GraphQLString) },
+        authorId: { type: GraphQLNonNull(GraphQLInt) }
+      },
+      resolve: (parent, args) => {
+        const book = { id: books.length + 1, name: args.name, authorId: args.authorId }
+        books.push(book);
+        return book;
+      }
+    }
+  })
+})
+
 const schema = new GraphQLSchema({
-  query: RootQueryType
+  query: RootQueryType,
+  mutation: RootMutationType
 })
 // we can access graphql without Postman
 // pass schema into here
